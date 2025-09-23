@@ -1,99 +1,178 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-import "./global.css"
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StatusBar,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import "./../../global.css";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+const LeafLensLogin = () => {
+  const [email, setEmail] = useState('Loisbecket@gmail.com');
+  const [password, setPassword] = useState('*******');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [activeTab, setActiveTab] = useState('login');
 
-export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <SafeAreaView className="flex-1 bg-white">
+      <StatusBar backgroundColor="#4ade80" barStyle="light-content" />
+      
+      {/* Header Section */}
+      <View className="bg-green-400 px-6 pt-8 pb-12 rounded-b-3xl">
+        <View className="flex-row items-center mb-8">
+          <View className="bg-white/20 w-8 h-8 rounded-lg mr-3 items-center justify-center">
+            <Ionicons name="leaf" size={20} color="white" />
+          </View>
+          <Text className="text-white text-2xl font-bold">LeafLens</Text>
+        </View>
+        
+        <Text className="text-white text-3xl font-bold mb-2">
+          Get Started now
+        </Text>
+        <Text className="text-white/80 text-base">
+          Create an account or log in to explore about our app
+        </Text>
+      </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        className="flex-1"
+      >
+        <ScrollView className="flex-1 px-6 -mt-6">
+          {/* Tab Section */}
+          <View className="bg-white rounded-2xl shadow-sm mb-6 overflow-hidden">
+            <View className="flex-row bg-gray-50">
+              <TouchableOpacity
+                onPress={() => setActiveTab('login')}
+                className={`flex-1 py-4 items-center ${
+                  activeTab === 'login' 
+                    ? 'bg-white border-b-2 border-green-400' 
+                    : ''
+                }`}
+              >
+                <Text className={`font-semibold ${
+                  activeTab === 'login' ? 'text-gray-900' : 'text-gray-500'
+                }`}>
+                  Log In
+                </Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity
+                onPress={() => setActiveTab('signup')}
+                className={`flex-1 py-4 items-center ${
+                  activeTab === 'signup' 
+                    ? 'bg-white border-b-2 border-green-400' 
+                    : ''
+                }`}
+              >
+                <Text className={`font-semibold ${
+                  activeTab === 'signup' ? 'text-gray-900' : 'text-gray-500'
+                }`}>
+                  Sign Up
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Form Section */}
+            <View className="p-6">
+              {/* Email Input */}
+              <View className="mb-4">
+                <Text className="text-gray-600 text-sm mb-2">Email</Text>
+                <TextInput
+                  value={email}
+                  onChangeText={setEmail}
+                  placeholder="Enter your email"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  className="bg-gray-50 px-4 py-4 rounded-xl text-gray-900 text-base"
+                />
+              </View>
+
+              {/* Password Input */}
+              <View className="mb-4">
+                <Text className="text-gray-600 text-sm mb-2">Password</Text>
+                <View className="relative">
+                  <TextInput
+                    value={password}
+                    onChangeText={setPassword}
+                    placeholder="Enter your password"
+                    secureTextEntry={!showPassword}
+                    className="bg-gray-50 px-4 py-4 pr-12 rounded-xl text-gray-900 text-base"
+                  />
+                  <TouchableOpacity
+                    onPress={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-4"
+                  >
+                    <Ionicons
+                      name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                      size={20}
+                      color="#6b7280"
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              {/* Remember Me & Forgot Password */}
+              <View className="flex-row items-center justify-between mb-6">
+                <TouchableOpacity
+                  onPress={() => setRememberMe(!rememberMe)}
+                  className="flex-row items-center"
+                >
+                  <View className={`w-5 h-5 border-2 rounded mr-2 items-center justify-center ${
+                    rememberMe ? 'bg-green-400 border-green-400' : 'border-gray-300'
+                  }`}>
+                    {rememberMe && (
+                      <Ionicons name="checkmark" size={12} color="white" />
+                    )}
+                  </View>
+                  <Text className="text-gray-600 text-sm">Remember me</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity>
+                  <Text className="text-blue-500 text-sm">Forgot Password ?</Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* Login Button */}
+              <TouchableOpacity className="bg-green-400 py-4 rounded-xl mb-4">
+                <Text className="text-white text-center font-semibold text-base">
+                  Log In
+                </Text>
+              </TouchableOpacity>
+
+              {/* Divider */}
+              <View className="items-center mb-4">
+                <Text className="text-gray-400 text-sm">Or</Text>
+              </View>
+
+              {/* Social Login Buttons */}
+              <TouchableOpacity className="flex-row items-center justify-center bg-white border border-gray-200 py-4 rounded-xl mb-3 shadow-sm">
+                <Text className="text-red-500 text-lg mr-2">G</Text>
+                <Text className="text-gray-700 font-medium">Continue with Google</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity className="flex-row items-center justify-center bg-white border border-gray-200 py-4 rounded-xl shadow-sm">
+                <Text className="text-blue-600 text-lg mr-2">f</Text>
+                <Text className="text-gray-700 font-medium">Continue with Facebook</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Bottom indicator */}
+          <View className="items-center mb-8">
+            <View className="w-32 h-1 bg-gray-800 rounded-full" />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+export default LeafLensLogin;
