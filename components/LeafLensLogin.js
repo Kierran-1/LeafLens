@@ -11,7 +11,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { styles } from './LeafLensLoginStyles';
+import styles from './LeafLensLoginStyles';
 
 export default function LeafLensLogin() {
   const [email, setEmail] = useState('Loisbecket@gmail.com');
@@ -186,3 +186,4 @@ export default function LeafLensLogin() {
     </SafeAreaView>
   );
 }
+

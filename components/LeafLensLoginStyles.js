@@ -1,3 +1,5 @@
+import { StyleSheet } from 'react-native';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -264,3 +266,5 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
 });
+
+export default styles; // Change to default export
