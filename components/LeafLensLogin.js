@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  SafeAreaView,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -12,6 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from './LeafLensLoginStyles';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LeafLensLogin() {
   const [email, setEmail] = useState('Loisbecket@gmail.com');
@@ -26,17 +26,8 @@ export default function LeafLensLogin() {
       
       {/* Header Section */}
       <View style={styles.header}>
-        {/* Status Bar Area */}
-        <View style={styles.statusBar}>
-          <Text style={styles.statusText}>9:41</Text>
-          <View style={styles.signalIcons}>
-            <View style={styles.signalBar} />
-            <View style={styles.signalBar} />
-            <View style={styles.signalBar} />
-            <View style={styles.batteryIcon} />
-          </View>
-        </View>
-        
+        {/* Removed custom status bar area */}
+
         <View style={styles.brandContainer}>
           <View style={styles.logoContainer}>
             <Ionicons name="leaf" size={20} color="white" />
@@ -177,13 +168,9 @@ export default function LeafLensLogin() {
             </View>
           </View>
 
-          {/* Bottom indicator */}
-          <View style={styles.bottomIndicator}>
-            <View style={styles.homeIndicator} />
-          </View>
+          {/* Removed bottom indicator */}
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
-
