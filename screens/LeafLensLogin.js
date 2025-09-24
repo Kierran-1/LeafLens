@@ -10,8 +10,8 @@ import {
   StatusBar,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from './LeafLensLoginStyles';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context'; // ✅ SafeAreaView from safe-area-context
+import styles from './styles/LeafLensLoginStyles';
 
 export default function LeafLensLogin() {
   const [email, setEmail] = useState('Loisbecket@gmail.com');
@@ -21,20 +21,18 @@ export default function LeafLensLogin() {
   const [activeTab, setActiveTab] = useState('login');
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#4ade80" barStyle="light-content" />
-      
+    <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']}>
+      <StatusBar backgroundColor={theme.colors.primary} barStyle="light-content" />
+
       {/* Header Section */}
       <View style={styles.header}>
-        {/* Removed custom status bar area */}
-
         <View style={styles.brandContainer}>
           <View style={styles.logoContainer}>
             <Ionicons name="leaf" size={20} color="white" />
           </View>
           <Text style={styles.brandText}>LeafLens</Text>
         </View>
-        
+
         <Text style={styles.titleText}>Get Started now</Text>
         <Text style={styles.subtitleText}>
           Create an account or log in to explore about our app
@@ -163,12 +161,10 @@ export default function LeafLensLogin() {
                 <View style={styles.facebookIcon}>
                   <Text style={styles.facebookText}>f</Text>
                 </View>
-                <Text style={styles.socialButtonText}>Continue with Facebok</Text>
+                <Text style={styles.socialButtonText}>Continue with Facebook</Text>
               </TouchableOpacity>
             </View>
           </View>
-
-          {/* Removed bottom indicator */}
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

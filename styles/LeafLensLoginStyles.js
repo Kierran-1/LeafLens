@@ -1,4 +1,6 @@
 import { StyleSheet } from 'react-native';
+import theme from '../theme';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -6,37 +8,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   header: {
-    backgroundColor: '#4ade80',
+    backgroundColor: theme.colors.primary,
     paddingHorizontal: 24,
     paddingTop: 16,
     paddingBottom: 48,
-  },
-  statusBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  statusText: {
-    color: 'white',
-    fontWeight: '500',
-  },
-  signalIcons: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  signalBar: {
-    width: 16,
-    height: 8,
-    backgroundColor: 'white',
-    borderRadius: 2,
-    marginRight: 4,
-  },
-  batteryIcon: {
-    width: 24,
-    height: 12,
-    backgroundColor: 'white',
-    borderRadius: 2,
   },
   brandContainer: {
     flexDirection: 'row',
@@ -53,17 +28,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   brandText: {
+    ...theme.typography.heading2,
     color: 'white',
-    fontSize: 24,
-    fontWeight: 'bold',
   },
+
   titleText: {
+    ...theme.typography.heading1,
     color: 'white',
-    fontSize: 30,
-    fontWeight: 'bold',
     marginBottom: 8,
   },
   subtitleText: {
+    ...theme.typography.body,
     color: 'rgba(255, 255, 255, 0.8)',
     fontSize: 16,
   },
@@ -105,9 +80,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   activeTab: {
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.background,
     borderBottomWidth: 2,
-    borderBottomColor: '#4ade80',
+    borderBottomColor: theme.colors.primary,
   },
   tabText: {
     fontWeight: '600',
@@ -185,13 +160,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   loginButton: {
-    backgroundColor: '#4ade80',
+    backgroundColor: theme.colors.primary,
     paddingVertical: 16,
     borderRadius: 12,
     marginBottom: 16,
   },
   loginButtonText: {
-    color: 'white',
+    color: theme.colors.background,
     textAlign: 'center',
     fontWeight: '600',
     fontSize: 16,
@@ -254,16 +229,6 @@ const styles = StyleSheet.create({
   socialButtonText: {
     color: '#374151',
     fontWeight: '500',
-  },
-  bottomIndicator: {
-    alignItems: 'center',
-    marginBottom: 32,
-  },
-  homeIndicator: {
-    width: 128,
-    height: 4,
-    backgroundColor: '#1f2937',
-    borderRadius: 2,
   },
 });
 
