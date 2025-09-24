@@ -1,9 +1,23 @@
 import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import LeafLensLogin from './components/LeafLensLogin';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LeafLensLogin from './screens/LeafLensLogin';
+import AppProvider from './providers/AppProvider';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-    <SafeAreaProvider>
-      <LeafLensLogin />
-    </SafeAreaProvider>
+  return (
+    <AppProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen
+            name="Login"
+            component={LeafLensLogin}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AppProvider>
+  );
 }

@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context'; // ✅ SafeAreaView from safe-area-context
-import styles from './styles/LeafLensLoginStyles';
+import styles from '../styles/LeafLensLoginStyles';
+import theme from '../theme';
 
 export default function LeafLensLogin() {
   const [email, setEmail] = useState('Loisbecket@gmail.com');
