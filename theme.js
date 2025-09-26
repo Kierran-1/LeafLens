@@ -1,12 +1,18 @@
 // theme.js
 const colors = {
-  primary: '#53B175',   // Main brand color
+  primary: '#22c55e',   // Main brand color
   text: '#000000',
   background: '#ffffff',
   gray: '#E9E9EA',
 };
 
 const typography = {
+  font:{
+    fontFamily: 'Nunito_800ExtraBold',
+    fontSize: 50,
+    fontWeight: 'bold',
+    color: '#22c55e',
+  },
   heading1: {
     fontFamily: 'Nunito_800ExtraBold',
     fontSize: 30,

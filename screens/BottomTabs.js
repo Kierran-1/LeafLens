@@ -1,6 +1,6 @@
 // BottomTabs.js
 import React from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -10,6 +10,9 @@ import Search from "./Search";
 import Scan from "./Scan";
 import Dashboard from "./Dashboard";
 import Profile from "./Profile";
+
+// Import styles
+import styles from "../styles/BottomTabsStyles";
 
 
 const Tab = createBottomTabNavigator();
@@ -82,29 +85,3 @@ export default function BottomTabs() {
     </Tab.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: "#22c55e",
-    height: 65,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    position: "absolute",
-    paddingTop: 6,
-  },
-  scanWrapper: {
-    top: -20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  scanButton: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 2,
-    borderColor: "#22c55e",
-  },
-});
