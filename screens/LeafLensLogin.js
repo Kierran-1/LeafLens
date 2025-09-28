@@ -10,16 +10,16 @@ import {
   StatusBar,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context'; // ✅ SafeAreaView from safe-area-context
+import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/LeafLensLoginStyles';
 import theme from '../theme';
 
-export default function LeafLensLogin() {
+export default function LeafLensLogin({ navigation }) {
   const [email, setEmail] = useState('Loisbecket@gmail.com');
   const [password, setPassword] = useState('*******');
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [activeTab, setActiveTab] = useState('login');
+  const [activeTab, setActiveTab] = useState('login'); // Track login or signup state
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']}>
@@ -140,9 +140,14 @@ export default function LeafLensLogin() {
                 </TouchableOpacity>
               </View>
 
-              {/* Login Button */}
-              <TouchableOpacity style={styles.loginButton}>
-                <Text style={styles.loginButtonText}>Log In</Text>
+              {/* Login Button - text changes based on activeTab */}
+              <TouchableOpacity 
+                style={styles.loginButton}
+                onPress={() => navigation.navigate('Home')}
+              >
+                <Text style={styles.loginButtonText}>
+                  {activeTab === 'login' ? 'Log In' : 'Sign Up'}
+                </Text>
               </TouchableOpacity>
 
               {/* Divider */}
