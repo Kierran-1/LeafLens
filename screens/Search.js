@@ -282,7 +282,6 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   content: {
-    flex: 1,
     paddingHorizontal: 20,
   },
   section: {
