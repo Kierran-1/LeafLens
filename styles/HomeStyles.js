@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'row',
@@ -64,7 +64,7 @@ export default StyleSheet.create({
     backgroundColor: '#e8f5e8',
   },
   tabButtonInactive: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#f5f5f5',
   },
   tabButtonText: {
     fontSize: 14,

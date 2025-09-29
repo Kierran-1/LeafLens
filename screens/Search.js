@@ -258,6 +258,7 @@ const styles = StyleSheet.create({
   },
   filtersContainer: {
     backgroundColor: '#fff',
+    flexGrow: 0,
   },
   filtersContent: {
     paddingHorizontal: 20,
