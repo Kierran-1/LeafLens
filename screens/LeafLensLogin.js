@@ -1,3 +1,7 @@
+/*
+  TODO: Signup and Login using same container elements: causing it to carry over data from Sign Up to login and vice versa.
+*/
+
 import React, { useState } from 'react';
 import {
   View,
@@ -32,7 +36,7 @@ export default function LeafLensLogin({ navigation }) {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username, email, password }), // Data types that will be inserted into the table from front end
       });
       Alert.alert("Success", response.data);
       navigation.navigate('Login');

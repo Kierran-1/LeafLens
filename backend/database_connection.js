@@ -5,7 +5,7 @@ const cors = require("cors");
 
 
 const app = express();
-const  PORT = 3000;
+const  PORT = 3000; // Express Server Port
 const DB_NAME = "Innovation";
 
 app.use(cors());
@@ -40,7 +40,7 @@ dbInit.connect(err => {
             return;
         }
         console.log("Connected to MySQL databse");
-
+        // User table creation
         const createUsersTable = `
         CREATE TABLE IF NOT EXISTS users (
           id INT AUTO_INCREMENT PRIMARY KEY,
@@ -61,7 +61,7 @@ dbInit.connect(err => {
 
 
 app.post("/users", async (req, res) => {
-    console.log("Received data:", req.body);
+    console.log("Received data:", req.body); // Debugging purpose in Command line Console
     const { username, email, password } = req.body;
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -71,14 +71,14 @@ app.post("/users", async (req, res) => {
                 console.error(err);
 
                 if (err.code === 'ER_DUP_ENTRY') {
-                // Extract which field caused the duplicate error (optional)
+                // Extract which field caused the duplicate error
                 const field = err.sqlMessage.includes('username') ? 'Username' : 'Email';
                 return res.status(409).send(`${field} already exists.`);
                 }
 
                 return res.status(500).send("Error registering user.");
             }
-            res.status(201).send("User registered successfully!");
+            res.status(201).send("User registered successfully!");// Success Code
         });
     } catch (error) {
         console.error(error);
