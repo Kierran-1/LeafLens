@@ -15,11 +15,28 @@ import styles from '../styles/LeafLensLoginStyles';
 import theme from '../theme';
 
 export default function LeafLensLogin({ navigation }) {
-  const [email, setEmail] = useState('Loisbecket@gmail.com');
-  const [password, setPassword] = useState('*******');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState('login'); // Track login or signup state
+  const IP_Add = "";
+  const PORT = "";
+
+  const HandleSignUp = async () => {
+    try {
+      const response = await fetch(`http://${IP_Add}:${PORT}`, {
+        username,
+        email,
+        password,
+      });
+      Alert.alert("Success", response.data);
+      navigation.navigate('Login');
+    } catch (error){
+      Alert.alert("Error", error.response?.data || "Something went wrong.");
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']}>
@@ -82,6 +99,18 @@ export default function LeafLensLogin({ navigation }) {
             {/* Form Section */}
             <View style={styles.formContainer}>
               {/* Email Input */}
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Username</Text>
+                <TextInput
+                  value={username}
+                  onChangeText={setUsername}
+                  placeholder="Enter your Username"
+                  autoCapitalize="none"
+                  style={styles.textInput}
+                />
+              </View>
+
               <View style={styles.inputGroup}>
                 <Text style={styles.inputLabel}>Email</Text>
                 <TextInput
