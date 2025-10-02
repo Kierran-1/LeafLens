@@ -20,7 +20,7 @@ export default function LeafLensLogin({ navigation }) {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [activeTab, setActiveTab] = useState('login'); // Track login or signup state
+  const [activeTab, setActiveTab] = useState('login'); // Track login or signup states
   const IP_Add = "";
   const PORT = "";
 
