@@ -8,6 +8,7 @@ import {
   Platform,
   ScrollView,
   StatusBar,
+  Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -21,15 +22,17 @@ export default function LeafLensLogin({ navigation }) {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState('login'); // Track login or signup states
-  const IP_Add = "";
-  const PORT = "";
+  const IP_Add = "172.17.20.230";
+  const PORT = 3000;
 
   const HandleSignUp = async () => {
     try {
-      const response = await fetch(`http://${IP_Add}:${PORT}`, {
-        username,
-        email,
-        password,
+      const response = await fetch(`http://${IP_Add}:${PORT}/users`, { //IMPORTANT : Remember to change the const for IP_ADD to your current IP Address
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, email, password }),
       });
       Alert.alert("Success", response.data);
       navigation.navigate('Login');
@@ -98,8 +101,8 @@ export default function LeafLensLogin({ navigation }) {
 
             {/* Form Section */}
             <View style={styles.formContainer}>
-              {/* Email Input */}
-
+              
+              {/* Username Input */}
               <View style={styles.inputGroup}>
                 <Text style={styles.inputLabel}>Username</Text>
                 <TextInput
@@ -111,6 +114,7 @@ export default function LeafLensLogin({ navigation }) {
                 />
               </View>
 
+              {/* Email Input */}
               <View style={styles.inputGroup}>
                 <Text style={styles.inputLabel}>Email</Text>
                 <TextInput
@@ -172,7 +176,13 @@ export default function LeafLensLogin({ navigation }) {
               {/* Login Button - text changes based on activeTab */}
               <TouchableOpacity 
                 style={styles.loginButton}
-                onPress={() => navigation.navigate('Home')}
+                onPress={() => { 
+                  if(activeTab === "signup"){
+                    HandleSignUp();
+                  } else{
+                    navigation.navigate('Home');
+                  }
+                }}
               >
                 <Text style={styles.loginButtonText}>
                   {activeTab === 'login' ? 'Log In' : 'Sign Up'}
