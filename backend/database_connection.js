@@ -69,6 +69,13 @@ app.post("/users", async (req, res) => {
         app.locals.db.query(sql, [username, email, hashedPassword], (err, result) => {
             if (err){
                 console.error(err);
+
+                if (err.code === 'ER_DUP_ENTRY') {
+                // Extract which field caused the duplicate error (optional)
+                const field = err.sqlMessage.includes('username') ? 'Username' : 'Email';
+                return res.status(409).send(`${field} already exists.`);
+                }
+
                 return res.status(500).send("Error registering user.");
             }
             res.status(201).send("User registered successfully!");
