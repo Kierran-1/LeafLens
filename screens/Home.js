@@ -99,7 +99,7 @@ export default function Home({ navigation }) {
       <View style={styles.welcomeBanner}>
         <Text style={styles.welcomeTitle}>Hi, User!</Text>
         <Text style={styles.welcomeSubtitle}>
-          Help identify and protect Sarawak's biodiversity.
+          Help identify and protect Sarawak's biodiversitys.
         </Text>
       </View>
 

@@ -11,6 +11,7 @@ import Scan from "./Scan";
 import Dashboard from "./Dashboard";
 import Profile from "./Profile";
 
+
 // Import styles
 import styles from "../styles/BottomTabsStyles";
 
@@ -82,6 +83,8 @@ export default function BottomTabs() {
           ),
         }}
       />
+
+        
     </Tab.Navigator>
   );
 }
