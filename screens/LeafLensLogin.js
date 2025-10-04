@@ -29,9 +29,9 @@ export default function LeafLensLogin({ navigation }) {
   const IP_Add = "172.17.20.230";
   const PORT = 3000;
 
-  const HandleSignUp = async () => {
+  const HandleSignUp = async () => {//Sign Up handler.
     try {
-      const response = await fetch(`http://${IP_Add}:${PORT}/users`, { //IMPORTANT : Remember to change the const for IP_ADD to your current IP Address
+      const response = await fetch(`http://${IP_Add}:${PORT}/users`, { //IMPORTANT : Remember to change the const for IP_ADD to your current IP Address.
         method: "POST",
         headers: {
           "Content-Type": "application/json"

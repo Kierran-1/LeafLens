@@ -5,13 +5,13 @@ const cors = require("cors");
 
 
 const app = express();
-const  PORT = 3000; // Express Server Port
-const DB_NAME = "Innovation";
+const  PORT = 3000; // Express Server Port.
+const DB_NAME = "Innovation"; // Our Database name I guess
 
 app.use(cors());
 app.use(express.json());
 
-const dbInit = mysql.createConnection({
+const dbInit = mysql.createConnection({ //Host, user and password should ok. Unless it has been configured to other things.
     host: "localhost",
     user: "root",
     password: "",
@@ -31,7 +31,7 @@ dbInit.connect(err => {
       host: "localhost",
       user: "root",
       password: "",
-      database: "Innovation",
+      database: DB_NAME,
     });
 
     db.connect (err => {
@@ -61,7 +61,7 @@ dbInit.connect(err => {
 
 
 app.post("/users", async (req, res) => {
-    console.log("Received data:", req.body); // Debugging purpose in Command line Console
+    console.log("Received data:", req.body); // Without this, we don't know what went wrong.
     const { username, email, password } = req.body;
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -71,7 +71,7 @@ app.post("/users", async (req, res) => {
                 console.error(err);
 
                 if (err.code === 'ER_DUP_ENTRY') {
-                // Extract which field caused the duplicate error
+                // Tells user an account with his name on it already exist.
                 const field = err.sqlMessage.includes('username') ? 'Username' : 'Email';
                 return res.status(409).send(`${field} already exists.`);
                 }
@@ -88,7 +88,7 @@ app.post("/users", async (req, res) => {
 
 /*
 This is used to display all the users in the database table.
-For now there is no use for this.
+For now this is basically useless.
 */ 
 app.get("/users", (req, res) => {
     const sql = "SELECT * FROM users";
