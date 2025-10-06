@@ -1,3 +1,5 @@
+import { Picker } from '@react-native-picker/picker';
+
 // EditProfile.js
 import React, { useState } from 'react';
 import {
@@ -15,12 +17,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import theme from '../theme';
 
 export default function EditProfile({ navigation, onBack }) {
-  const [username, setUsername] = useState('yxk0ng');
-  const [email, setEmail] = useState('yxe0ng@gmail.com');
-  const [phoneNumber, setPhoneNumber] = useState('+60978899999');
-  const [password, setPassword] = useState('wxfTwvVGd');
-  const [dateOfBirth, setDateOfBirth] = useState('2005/10/13');
-  const [gender, setGender] = useState('Male');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [password, setPassword] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [gender, setGender] = useState('');
 
   const handleUpdate = () => {
     // Handle profile update logic here
@@ -125,19 +127,21 @@ export default function EditProfile({ navigation, onBack }) {
           {/* Gender */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Gender</Text>
-            <View style={styles.inputWithIcon}>
-              <TextInput
-                style={[styles.input, { flex: 1 }]}
-                value={gender}
-                onChangeText={setGender}
-                placeholder="Gender"
-                editable={false}
-              />
-              <TouchableOpacity style={styles.iconButton}>
-                <Ionicons name="chevron-down" size={20} color="#666" />
-              </TouchableOpacity>
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={gender}
+                onValueChange={(itemValue) => setGender(itemValue)}
+                mode="dropdown" // or "dialog" on Android
+                style={styles.picker}
+                dropdownIconColor="#666"
+              >
+                <Picker.Item label="Select" value="" color="#999" />
+                <Picker.Item label="Male" value="Male" color="#333" />
+                <Picker.Item label="Female" value="Female" color="#333" />
+              </Picker>
             </View>
           </View>
+
 
           {/* Update Button */}
           <TouchableOpacity 
@@ -249,5 +253,15 @@ const styles = StyleSheet.create({
     ...theme.typography.heading2,
     color: '#ffffff',
     fontSize: 16,
+  },
+  pickerContainer: {
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    borderRadius: 8,
+    // Add padding to match input style
+    paddingHorizontal: 8,
+    // Optionally adjust vertical padding for alignment
+    paddingVertical: Platform.OS === 'ios' ? 8 : 0,
   },
 });

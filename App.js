@@ -44,17 +44,27 @@
 //   );
 // }
 
-import React from "react";
+import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LeafLensLogin from "./screens/LeafLensLogin";
 import BottomTabs from "./screens/BottomTabs"; // or BottomTabs if that's your main app
 import GetStarted from "./screens/GetStarted";
 import AppProvider from "./providers/AppProvider";
+import * as NavigationBar from 'expo-navigation-bar'; // navigation bar hidden component
+import { StatusBar } from "react-native"; // status bar hidden component
+import EditProfile from "./screens/EditProfile";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  // adding useEffect function to achieve the hidden of navigation bar and hidden component 
+  useEffect(() => {
+    StatusBar.setHidden(false);
+    NavigationBar.setVisibilityAsync('hidden');
+    NavigationBar.setBehaviorAsync("overlay-swipe");
+  }, []);
+
   return (
     <AppProvider>
       <NavigationContainer>
@@ -62,6 +72,7 @@ export default function App() {
           <Stack.Screen name="GetStarted" component={GetStarted} />
           <Stack.Screen name="Login" component={LeafLensLogin} />
           <Stack.Screen name="Home" component={BottomTabs} />
+          <Stack.Screen name="EditProfile" component={EditProfile} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppProvider>
