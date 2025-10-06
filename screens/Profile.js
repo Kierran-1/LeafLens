@@ -10,23 +10,15 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import theme from '../theme';
-import EditProfile from './EditProfile'; // ADD THIS LINE
 
 export default function Profile({ navigation }) {
-  const [showEditProfile, setShowEditProfile] = React.useState(false); // ADD THIS LINE
-
-  // ADD THIS CHECK
-  if (showEditProfile) {
-    return <EditProfile navigation={navigation} onBack={() => setShowEditProfile(false)} />;
-  }
-
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity 
           style={styles.headerButton}
-          onPress={() => setShowEditProfile(true)} // CHANGE THIS
+          onPress={() => {/* Settings logic here if needed */}}
         >
           <Text style={styles.headerButtonText}>Settings</Text>
         </TouchableOpacity>
@@ -42,13 +34,15 @@ export default function Profile({ navigation }) {
       {/* Profile Picture Section */}
       <View style={styles.profileSection}>
         <View style={styles.profileImageContainer}>
-          <Image
-            source={{ uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop' }}
-            style={styles.profileImage}
-          />
+          <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+            <Image
+              source={{ uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop' }}
+              style={styles.profileImage}
+            />
+          </TouchableOpacity>
           <TouchableOpacity 
             style={styles.editButton}
-            onPress={() => setShowEditProfile(true)} // CHANGE THIS
+            onPress={() => navigation.navigate('EditProfile')}
           >
             <Ionicons name="pencil" size={16} color={theme.colors.primary} />
           </TouchableOpacity>
