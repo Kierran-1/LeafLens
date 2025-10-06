@@ -26,12 +26,12 @@ export default function LeafLensLogin({ navigation }) {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState('login'); // Track login or signup states
-  const IP_Add = "172.17.20.230";
+  const IP_Add = "192.168.0.215";
   const PORT = 3000;
 
   const HandleSignUp = async () => {//Sign Up handler.
     try {
-      const response = await fetch(`http://${IP_Add}:${PORT}/users`, { 
+      const response = await fetch(`http://${IP_Add}:${PORT}/register`, { 
         /*
           IMPORTANT : Remember to change the const for IP_ADD to your current IP Address and also to node database_connection.js to start the backend server.
         */
@@ -45,6 +45,32 @@ export default function LeafLensLogin({ navigation }) {
       navigation.navigate('Login');
     } catch (error){
       Alert.alert("Error", error.response?.data || "Something went wrong.");
+    }
+  }
+
+  const HandleLogin = async () => {
+    try{
+      const response = await fetch(`http://${IP_Add}:${PORT}/login` , {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      });
+      if (!response.ok) {
+        const messgae = await response.text();
+        Alert.alert("Login Failed", message || "Invalid Credentials.");
+        return;
+      }
+
+      const data = await response.json();
+      console.log("User:", data.user.username);
+
+      Alert.alert("Login Success", `Welcome, ${data.user.username}!`);
+      navigation.navigate("Home");
+    } catch (error) {
+      Alert.alert("Error", "Unable to login. Please try again later.");
+      console.error("Login Error", error);
     }
   }
 
@@ -187,7 +213,7 @@ export default function LeafLensLogin({ navigation }) {
                   if(activeTab === "signup"){
                     HandleSignUp();
                   } else{
-                    navigation.navigate('Home');
+                    HandleLogin();
                   }
                 }}
               >
