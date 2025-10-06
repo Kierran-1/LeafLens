@@ -53,6 +53,7 @@ import GetStarted from "./screens/GetStarted";
 import AppProvider from "./providers/AppProvider";
 import * as NavigationBar from 'expo-navigation-bar'; // navigation bar hidden component
 import { StatusBar } from "react-native"; // status bar hidden component
+import EditProfile from "./screens/EditProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -71,6 +72,7 @@ export default function App() {
           <Stack.Screen name="GetStarted" component={GetStarted} />
           <Stack.Screen name="Login" component={LeafLensLogin} />
           <Stack.Screen name="Home" component={BottomTabs} />
+          <Stack.Screen name="EditProfile" component={EditProfile} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppProvider>
