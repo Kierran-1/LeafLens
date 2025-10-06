@@ -59,7 +59,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   // adding useEffect function to achieve the hidden of navigation bar and hidden component 
   useEffect(() => {
-    StatusBar.setHidden(true);
+    StatusBar.setHidden(false);
     NavigationBar.setVisibilityAsync('hidden');
     NavigationBar.setBehaviorAsync("overlay-swipe");
   }, []);
