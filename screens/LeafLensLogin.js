@@ -58,7 +58,7 @@ export default function LeafLensLogin({ navigation }) {
         body: JSON.stringify({ email, password })
       });
       if (!response.ok) {
-        const messgae = await response.text();
+        const message = await response.text();
         Alert.alert("Login Failed", message || "Invalid Credentials.");
         return;
       }
