@@ -25,8 +25,6 @@
     "react-native": "0.81.4",
     "react-native-gesture-handler": "^2.28.0",
     "react-native-get-random-values": "^1.11.0",
-    "react-native-immersive": "^2.0.0",
-    "react-native-immersive-mode": "^2.0.2",
     "react-native-picker": "^4.3.7",
     "react-native-reanimated": "^4.1.1",
     "react-native-safe-area-context": "^5.6.1",

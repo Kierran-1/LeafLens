@@ -44,27 +44,40 @@
 //   );
 // }
 
-import React, { useEffect } from "react";
+import React, { useEffect } from "react"; // import useEffect
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LeafLensLogin from "./screens/LeafLensLogin";
 import BottomTabs from "./screens/BottomTabs"; // or BottomTabs if that's your main app
 import GetStarted from "./screens/GetStarted";
 import AppProvider from "./providers/AppProvider";
-import * as NavigationBar from 'expo-navigation-bar'; // navigation bar hidden component
-import { StatusBar } from "react-native"; // status bar hidden component
 import EditProfile from "./screens/EditProfile";
+
+import { AppState } from "react-native"; // for create the event listener
+import * as NavigationBar from 'expo-navigation-bar'; // expo navigation bar packages
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  // adding useEffect function to achieve the hidden of navigation bar and hidden component 
   useEffect(() => {
-    StatusBar.setHidden(false);
-    NavigationBar.setVisibilityAsync('hidden');
-    NavigationBar.setBehaviorAsync("overlay-swipe");
+    // Hide the navigation bar of mobile device, can call it back by swipe up the from the bottom
+    const hideNavigationBar = async () => {
+      await NavigationBar.setVisibilityAsync("hidden");
+      await NavigationBar.setBehaviorAsync("overlay-swipe");
+    };
+
+    hideNavigationBar();
+
+    const refocus = AppState.addEventListener("change", (state) => {
+      if(state == "active"){
+        hideNavigationBar();
+      }
+    });
+    
+    return () => refocus.remove();
   }, []);
 
+// why edit profile here
   return (
     <AppProvider>
       <NavigationContainer>
