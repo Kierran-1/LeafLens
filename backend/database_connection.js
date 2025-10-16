@@ -64,6 +64,26 @@ dbInit.connect(err => {
             defaultAdmin();
         });
 
+        // Plants table creation 
+        const createPlantsTable = `
+        CREATE TABLE IF NOT EXISTS plants (
+            plantID INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255),
+            family VARCHAR(255),
+            speciesType VARCHAR(255),
+            rarity VARCHAR(100),
+            protectionStatus VARCHAR(100),
+            observationDate DATETIME,
+            latitude FLOAT,
+            longitude FLOAT
+        )
+        `;
+
+        db.query(createPlantsTable, (err) => {
+        if (err) throw err;
+        console.log("Plants table created!");
+        });
+
         app.locals.db = db;
         
         async function defaultAdmin() {
