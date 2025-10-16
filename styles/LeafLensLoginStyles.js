@@ -1,235 +1,252 @@
 import { StyleSheet } from 'react-native';
 import theme from '../theme';
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: theme.colors.primary,
   },
+  
+  // Header Section (Green background)
   header: {
     backgroundColor: theme.colors.primary,
     paddingHorizontal: 24,
-    paddingTop: 16,
-    paddingBottom: 48,
+    paddingTop: 20,
+    paddingBottom: 40,
   },
   brandContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: 40,
   },
-  logoContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    width: 32,
-    height: 32,
+  logoIcon: {
+    width: 36,
+    height: 36,
     borderRadius: 8,
-    marginRight: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight: 10,
   },
   brandText: {
-    ...theme.typography.heading2,
+    fontSize: 24,
+    fontWeight: '700',
     color: 'white',
   },
-
   titleText: {
-    ...theme.typography.heading1,
+    fontSize: 32,
+    fontWeight: '700',
     color: 'white',
     marginBottom: 8,
   },
   subtitleText: {
-    ...theme.typography.body,
-    color: 'rgba(255, 255, 255, 0.8)',
-    fontSize: 16,
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.9)',
+    lineHeight: 20,
   },
+
+  // Keyboard & Scroll
   keyboardView: {
     flex: 1,
   },
   scrollContainer: {
     flex: 1,
-    paddingHorizontal: 24,
-    marginTop: -32,
   },
   scrollContent: {
-    paddingBottom: 32,
+    flexGrow: 1,
   },
-  tabContainer: {
-    backgroundColor: 'white',
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5,
-    marginBottom: 24,
-    overflow: 'hidden',
+
+  // White Card Container
+  cardContainer: {
+    flex: 1,
+    backgroundColor: '#FAFAFA',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingTop: 0,
+    marginTop: -10,
   },
+
+  // Tabs
   tabRow: {
     flexDirection: 'row',
-    backgroundColor: '#f9fafb',
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
+    backgroundColor: '#FAFAFA',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingTop: 20,
+    paddingHorizontal: 24,
   },
   tab: {
     flex: 1,
-    paddingVertical: 16,
+    paddingVertical: 12,
     alignItems: 'center',
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
   },
   activeTab: {
-    backgroundColor: theme.colors.background,
-    borderBottomWidth: 2,
     borderBottomColor: theme.colors.primary,
   },
   tabText: {
+    fontSize: 16,
     fontWeight: '600',
-    color: '#6b7280',
+    color: '#999',
   },
   activeTabText: {
-    color: '#111827',
+    color: '#333',
   },
+
+  // Form
   formContainer: {
     padding: 24,
   },
   inputGroup: {
-    marginBottom: 16,
+    marginBottom: 20,
   },
   inputLabel: {
-    color: '#6b7280',
     fontSize: 14,
+    color: '#666',
     marginBottom: 8,
   },
   textInput: {
-    backgroundColor: '#f9fafb',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingVertical: 14,
     borderRadius: 12,
-    color: '#111827',
-    fontSize: 16,
+    fontSize: 15,
+    color: '#333',
+    borderWidth: 1,
+    borderColor: '#E8E8E8',
   },
+
+  // Password
   passwordContainer: {
     position: 'relative',
   },
   passwordInput: {
-    backgroundColor: '#f9fafb',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 16,
-    paddingVertical: 16,
-    paddingRight: 48,
+    paddingVertical: 14,
+    paddingRight: 50,
     borderRadius: 12,
-    color: '#111827',
-    fontSize: 16,
+    fontSize: 15,
+    color: '#333',
+    borderWidth: 1,
+    borderColor: '#E8E8E8',
   },
   eyeIcon: {
     position: 'absolute',
     right: 16,
-    top: 16,
+    top: 14,
+    padding: 4,
   },
+
+  // Options Row
   optionsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 24,
+    marginTop: -4,
   },
   rememberContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   checkbox: {
-    width: 20,
-    height: 20,
+    width: 18,
+    height: 18,
     borderWidth: 2,
-    borderColor: '#d1d5db',
+    borderColor: '#D1D5DB',
     borderRadius: 4,
     marginRight: 8,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
   },
   checkboxActive: {
-    backgroundColor: '#4ade80',
-    borderColor: '#4ade80',
+    backgroundColor: theme.colors.primary,
+    borderColor: theme.colors.primary,
   },
   rememberText: {
-    color: '#6b7280',
-    fontSize: 14,
+    fontSize: 13,
+    color: '#666',
   },
   forgotText: {
-    color: '#3b82f6',
-    fontSize: 14,
+    fontSize: 13,
+    color: '#3B82F6',
   },
-  loginButton: {
+
+  // Action Button (Log In / Sign Up)
+  actionButton: {
     backgroundColor: theme.colors.primary,
     paddingVertical: 16,
     borderRadius: 12,
-    marginBottom: 16,
-  },
-  loginButtonText: {
-    color: theme.colors.background,
-    textAlign: 'center',
-    fontWeight: '600',
-    fontSize: 16,
-  },
-  dividerContainer: {
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 20,
+    shadowColor: '#22c55e',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  actionButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+
+  // Divider
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#E8E8E8',
   },
   dividerText: {
-    color: '#9ca3af',
     fontSize: 14,
+    color: '#999',
+    marginHorizontal: 16,
   },
+
+  // Social Buttons
   socialButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    paddingVertical: 16,
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 14,
     borderRadius: 12,
     marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    borderWidth: 1,
+    borderColor: '#E8E8E8',
+  },
+  googleIconContainer: {
+    width: 24,
+    height: 24,
+    marginRight: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   googleIcon: {
-    width: 20,
-    height: 20,
-    backgroundColor: '#ef4444',
-    borderRadius: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#4285F4',
+  },
+  facebookIconContainer: {
+    width: 24,
+    height: 24,
     marginRight: 12,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  googleText: {
-    color: 'white',
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  facebookIcon: {
-    width: 20,
-    height: 20,
-    backgroundColor: '#2563eb',
-    borderRadius: 10,
-    marginRight: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  facebookText: {
-    color: 'white',
-    fontSize: 12,
-    fontWeight: 'bold',
   },
   socialButtonText: {
-    color: '#374151',
-    fontWeight: '500',
+    fontSize: 15,
+    color: '#333',
+    fontWeight: '600',
   },
 });
 
-export default styles; // Change to default export
+export default styles;

@@ -1,17 +1,106 @@
 // Profile.js
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import theme from '../theme';
 
 export default function Profile({ navigation }) {
+  const [activeTab, setActiveTab] = useState('posts');
+
+  // Dummy posts data
+  const posts = [
+    {
+      id: 1,
+      image: 'https://images.unsplash.com/photo-1470058869958-2a77ade41c02?w=400&h=400&fit=crop',
+      caption: 'Beautiful morning hike! 🌄',
+      likes: 124,
+      date: '2 days ago'
+    },
+    {
+      id: 2,
+      image: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=400&h=400&fit=crop',
+      caption: 'Discovered this amazing plant species in the forest',
+      likes: 89,
+      date: '5 days ago'
+    },
+    {
+      id: 3,
+      image: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=400&h=400&fit=crop',
+      caption: 'Nature photography at its finest 📸',
+      likes: 156,
+      date: '1 week ago'
+    },
+    {
+      id: 4,
+      image: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=400&h=400&fit=crop',
+      caption: 'Sunset views from the peak',
+      likes: 203,
+      date: '1 week ago'
+    },
+  ];
+
+  // Dummy photos data
+  const photos = [
+    {
+      id: 1,
+      image: 'https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=400&h=400&fit=crop',
+    },
+    {
+      id: 2,
+      image: 'https://images.unsplash.com/photo-1511497584788-876760111969?w=400&h=400&fit=crop',
+    },
+    {
+      id: 3,
+      image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=400&fit=crop',
+    },
+    {
+      id: 4,
+      image: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400&h=400&fit=crop',
+    },
+    {
+      id: 5,
+      image: 'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&h=400&fit=crop',
+    },
+    {
+      id: 6,
+      image: 'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=400&h=400&fit=crop',
+    },
+  ];
+
+  const PostCard = ({ post }) => (
+    <View style={styles.postCard}>
+      <Image source={{ uri: post.image }} style={styles.postImage} />
+      <View style={styles.postInfo}>
+        <Text style={styles.postCaption}>{post.caption}</Text>
+        <View style={styles.postMeta}>
+          <View style={styles.likesContainer}>
+            <Ionicons name="heart" size={16} color="#ef4444" />
+            <Text style={styles.likesText}>{post.likes} likes</Text>
+          </View>
+          <Text style={styles.postDate}>{post.date}</Text>
+        </View>
+      </View>
+    </View>
+  );
+
+  const PhotoGrid = () => (
+    <View style={styles.photoGrid}>
+      {photos.map((photo) => (
+        <TouchableOpacity key={photo.id} style={styles.photoItem}>
+          <Image source={{ uri: photo.image }} style={styles.photoImage} />
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -31,49 +120,64 @@ export default function Profile({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* Profile Picture Section */}
-      <View style={styles.profileSection}>
-        <View style={styles.profileImageContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
-            <Image
-              source={{ uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop' }}
-              style={styles.profileImage}
-            />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Profile Picture Section */}
+        <View style={styles.profileSection}>
+          <View style={styles.profileImageContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+              <Image
+                source={{ uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop' }}
+                style={styles.profileImage}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.editButton}
+              onPress={() => navigation.navigate('EditProfile')}
+            >
+              <Ionicons name="pencil" size={16} color={theme.colors.primary} />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* User Info */}
+        <View style={styles.userInfoSection}>
+          <Text style={styles.userName}>Dr House</Text>
+          <Text style={styles.userBio}>Do you have hair in your special place</Text>
+        </View>
+
+        {/* Tabs */}
+        <View style={styles.tabsContainer}>
+          <TouchableOpacity 
+            style={[styles.tab, activeTab === 'posts' && styles.tabActive]}
+            onPress={() => setActiveTab('posts')}
+          >
+            <Text style={[styles.tabText, activeTab === 'posts' && styles.tabTextActive]}>
+              Posts
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity 
-            style={styles.editButton}
-            onPress={() => navigation.navigate('EditProfile')}
+            style={[styles.tab, activeTab === 'photos' && styles.tabActive]}
+            onPress={() => setActiveTab('photos')}
           >
-            <Ionicons name="pencil" size={16} color={theme.colors.primary} />
+            <Text style={[styles.tabText, activeTab === 'photos' && styles.tabTextActive]}>
+              Photos
+            </Text>
           </TouchableOpacity>
         </View>
-      </View>
 
-      {/* User Info */}
-      <View style={styles.userInfoSection}>
-        <Text style={styles.userName}>Dr House</Text>
-        <Text style={styles.userBio}>Do you have hair in your special place</Text>
-      </View>
-
-      {/* Tabs */}
-      <View style={styles.tabsContainer}>
-        <TouchableOpacity style={styles.tab}>
-          <Text style={styles.tabText}>Posts</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.tab, styles.tabActive]}>
-          <Text style={[styles.tabText, styles.tabTextActive]}>Photos</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Photos Placeholder */}
-      <View style={styles.photosContainer}>
-        <View style={styles.photoPlaceholder}>
-          <Ionicons name="image-outline" size={60} color="#D1D1D6" />
-          <Ionicons name="settings-outline" size={40} color="#D1D1D6" style={styles.gearIcon} />
-          <Ionicons name="albums-outline" size={40} color="#D1D1D6" style={styles.albumIcon} />
+        {/* Content based on active tab */}
+        <View style={styles.contentContainer}>
+          {activeTab === 'posts' ? (
+            <View style={styles.postsContainer}>
+              {posts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </View>
+          ) : (
+            <PhotoGrid />
+          )}
         </View>
-        <Text style={styles.placeholderText}>Header</Text>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -94,16 +198,17 @@ const styles = StyleSheet.create({
   },
   headerButton: {
     padding: 4,
+    minWidth: 60,
   },
   headerButtonText: {
-    ...theme.typography.body,
     color: '#ffffff',
-    fontSize: 14,
+    fontSize: 15,
+    fontWeight: '600',
   },
   headerTitle: {
-    ...theme.typography.heading2,
     color: '#ffffff',
     fontSize: 20,
+    fontWeight: '700',
   },
   profileSection: {
     alignItems: 'center',
@@ -138,13 +243,13 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   userName: {
-    ...theme.typography.heading1,
     fontSize: 24,
+    fontWeight: '700',
+    color: '#333',
     marginBottom: 4,
   },
   userBio: {
-    ...theme.typography.body,
-    fontSize: 12,
+    fontSize: 14,
     color: '#666',
   },
   tabsContainer: {
@@ -162,83 +267,76 @@ const styles = StyleSheet.create({
     borderBottomColor: theme.colors.primary,
   },
   tabText: {
-    ...theme.typography.body,
-    fontSize: 14,
+    fontSize: 16,
     color: '#666',
+    fontWeight: '500',
   },
   tabTextActive: {
     color: theme.colors.primary,
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
-  photosContainer: {
+  contentContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    paddingTop: 10,
   },
-  photoPlaceholder: {
-    width: 200,
-    height: 150,
-    backgroundColor: '#F5F5F5',
+  postsContainer: {
+    paddingHorizontal: 16,
+  },
+  postCard: {
+    backgroundColor: '#fff',
     borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-  },
-  gearIcon: {
-    position: 'absolute',
-    bottom: 20,
-    left: 30,
-  },
-  albumIcon: {
-    position: 'absolute',
-    bottom: 20,
-    right: 30,
-  },
-  placeholderText: {
-    ...theme.typography.body,
-    fontSize: 14,
-    color: '#666',
-    marginTop: 12,
-  },
-  bottomNav: {
-    flexDirection: 'row',
-    backgroundColor: '#ffffff',
-    borderTopWidth: 1,
-    borderTopColor: '#E0E0E0',
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-  },
-  navButton: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: 4,
-  },
-  navButtonCenter: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: -20,
-  },
-  centerButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: theme.colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginBottom: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 3,
+    overflow: 'hidden',
   },
-  navButtonText: {
-    ...theme.typography.body,
-    fontSize: 10,
+  postImage: {
+    width: '100%',
+    height: 300,
+  },
+  postInfo: {
+    padding: 12,
+  },
+  postCaption: {
+    fontSize: 15,
+    color: '#333',
+    marginBottom: 8,
+    fontWeight: '500',
+  },
+  postMeta: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  likesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  likesText: {
+    fontSize: 14,
     color: '#666',
-    marginTop: 4,
+    marginLeft: 6,
   },
-  navButtonTextActive: {
-    color: theme.colors.primary,
+  postDate: {
+    fontSize: 12,
+    color: '#999',
+  },
+  photoGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: 12,
+  },
+  photoItem: {
+    width: '33.33%',
+    aspectRatio: 1,
+    padding: 4,
+  },
+  photoImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 8,
   },
 });

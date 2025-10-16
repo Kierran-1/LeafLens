@@ -28,7 +28,7 @@ export default function LeafLensLogin({ navigation }) {
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState('login'); // Track login or signup states
   const [isPublicUser, setisPublicUser] = useState(null);
-  const IP_Add = "192.168.0.215";
+  const IP_Add = "192.168.1.5";
   const PORT = 3000;
 
   const HandleSignUp = async () => {//Sign Up handler.
@@ -51,6 +51,11 @@ export default function LeafLensLogin({ navigation }) {
   }
 
   const HandleLogin = async () => {
+    console.log("Login button pressed");
+    console.log("Attempting to connect to:", `http://${IP_Add}:${PORT}/login`);
+    console.log("Email:", email);
+    console.log("Password length:", password.length);
+    
     try{
 
       const response = await fetch(`http://${IP_Add}:${PORT}/login` , {
@@ -61,13 +66,17 @@ export default function LeafLensLogin({ navigation }) {
         body: JSON.stringify({ email, password })
       });
 
+      console.log("Response status:", response.status);
+
       if (!response.ok) {
         const message = await response.text();
+        console.log("Error message:", message);
         Alert.alert("Login Failed", message || "Invalid Credentials.");
         return;
       }
 
       const data = await response.json();
+      console.log("Login response:", data);
       
       await AsyncStorage.setItem("user", JSON.stringify(data.user));
       console.log("User:", data.user.username);
@@ -76,39 +85,29 @@ export default function LeafLensLogin({ navigation }) {
       Alert.alert("Login Success", `Welcome, ${data.user.username}!`);
       console.log("User Role:", userRole);
 
-      switch (userRole){
-        case "Super Admin":
-          navigation.replace(/*Admin page*/);
-          break;
-
-        case "Park Admin":
-          navigation.replace(/*Admin page*/);
-          break;
-
-        case "Moderator Admin":
-          navigation.replace(/*Admin page*/);
-          break;
-
-        case "Public User":
-          navigation.replace("Home");
-          break;
+      // Navigate based on user role
+      if (userRole === "Super Admin" || userRole === "Park Admin" || userRole === "Moderator Admin") {
+        navigation.replace("AdminDashboard");
+      } else {
+        navigation.replace("Home");
       }
 
     } catch (error) {
-      Alert.alert("Error", "Unable to login. Please try again later.");
+      console.log("Catch error:", error);
+      Alert.alert("Error", `Unable to login: ${error.message}`);
       console.error("Login Error", error);
     }
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar backgroundColor={theme.colors.primary} barStyle="light-content" />
 
-      {/* Header Section */}
+      {/* Header Section - Green Background */}
       <View style={styles.header}>
         <View style={styles.brandContainer}>
-          <View style={styles.logoContainer}>
-            <Ionicons name="leaf" size={20} color="white" />
+          <View style={styles.logoIcon}>
+            <Ionicons name="leaf" size={24} color="white" />
           </View>
           <Text style={styles.brandText}>LeafLens</Text>
         </View>
@@ -123,9 +122,14 @@ export default function LeafLensLogin({ navigation }) {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
       >
-        <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.scrollContent}>
-          {/* Tab Section */}
-          <View style={styles.tabContainer}>
+        <ScrollView 
+          style={styles.scrollContainer} 
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* White Card Container */}
+          <View style={styles.cardContainer}>
+            {/* Tab Section */}
             <View style={styles.tabRow}>
               <TouchableOpacity
                 onPress={() => setActiveTab('login')}
@@ -161,24 +165,20 @@ export default function LeafLensLogin({ navigation }) {
             {/* Form Section */}
             <View style={styles.formContainer}>
               
-              {/* Username Input */}
+              {/* Username Input - Only for Sign Up */}
               {activeTab === "signup" && (
-
                 <View style={styles.inputGroup}>
                   <Text style={styles.inputLabel}>Username</Text>
-
                   <TextInput
                     value={username}
                     onChangeText={setUsername}
                     placeholder="Enter your Username"
                     autoCapitalize="none"
                     style={styles.textInput}
+                    placeholderTextColor="#999"
                   />
-
                 </View>
-
               )}
-              
 
               {/* Email Input */}
               <View style={styles.inputGroup}>
@@ -186,10 +186,11 @@ export default function LeafLensLogin({ navigation }) {
                 <TextInput
                   value={email}
                   onChangeText={setEmail}
-                  placeholder="Enter your email"
+                  placeholder="Loisbecket@gmail.com"
                   keyboardType="email-address"
                   autoCapitalize="none"
                   style={styles.textInput}
+                  placeholderTextColor="#999"
                 />
               </View>
 
@@ -200,9 +201,10 @@ export default function LeafLensLogin({ navigation }) {
                   <TextInput
                     value={password}
                     onChangeText={setPassword}
-                    placeholder="Enter your password"
+                    placeholder="••••••••"
                     secureTextEntry={!showPassword}
                     style={styles.passwordInput}
+                    placeholderTextColor="#999"
                   />
                   <TouchableOpacity
                     onPress={() => setShowPassword(!showPassword)}
@@ -211,7 +213,7 @@ export default function LeafLensLogin({ navigation }) {
                     <Ionicons
                       name={showPassword ? 'eye-off-outline' : 'eye-outline'}
                       size={20}
-                      color="#6b7280"
+                      color="#999"
                     />
                   </TouchableOpacity>
                 </View>
@@ -228,7 +230,7 @@ export default function LeafLensLogin({ navigation }) {
                     rememberMe && styles.checkboxActive
                   ]}>
                     {rememberMe && (
-                      <Ionicons name="checkmark" size={12} color="white" />
+                      <Ionicons name="checkmark" size={14} color="white" />
                     )}
                   </View>
                   <Text style={styles.rememberText}>Remember me</Text>
@@ -239,9 +241,9 @@ export default function LeafLensLogin({ navigation }) {
                 </TouchableOpacity>
               </View>
 
-              {/* Login Button - text changes based on activeTab */}
+              {/* Login/Sign Up Button */}
               <TouchableOpacity 
-                style={styles.loginButton}
+                style={styles.actionButton}
                 onPress={() => { 
                   if(activeTab === "signup"){
                     HandleSignUp();
@@ -250,27 +252,29 @@ export default function LeafLensLogin({ navigation }) {
                   }
                 }}
               >
-                <Text style={styles.loginButtonText}>
+                <Text style={styles.actionButtonText}>
                   {activeTab === 'login' ? 'Log In' : 'Sign Up'}
                 </Text>
               </TouchableOpacity>
 
               {/* Divider */}
               <View style={styles.dividerContainer}>
+                <View style={styles.dividerLine} />
                 <Text style={styles.dividerText}>Or</Text>
+                <View style={styles.dividerLine} />
               </View>
 
               {/* Social Login Buttons */}
               <TouchableOpacity style={styles.socialButton}>
-                <View style={styles.googleIcon}>
-                  <Text style={styles.googleText}>G</Text>
+                <View style={styles.googleIconContainer}>
+                  <Text style={styles.googleIcon}>G</Text>
                 </View>
                 <Text style={styles.socialButtonText}>Continue with Google</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.socialButton}>
-                <View style={styles.facebookIcon}>
-                  <Text style={styles.facebookText}>f</Text>
+                <View style={styles.facebookIconContainer}>
+                  <Ionicons name="logo-facebook" size={20} color="#1877F2" />
                 </View>
                 <Text style={styles.socialButtonText}>Continue with Facebook</Text>
               </TouchableOpacity>

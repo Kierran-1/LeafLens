@@ -1,83 +1,44 @@
-// import React from 'react';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import LeafLensLogin from './screens/LeafLensLogin';
-// import AppProvider from './providers/AppProvider';
-
-// const Stack = createNativeStackNavigator();
-
-// export default function App() {
-//   return (
-//     <AppProvider>
-//       <NavigationContainer>
-//         <Stack.Navigator initialRouteName="Login">
-//           <Stack.Screen
-//             name="Login"
-//             component={LeafLensLogin}
-//             options={{ headerShown: false }}
-//           />
-//         </Stack.Navigator>
-//       </NavigationContainer>
-//     </AppProvider>
-//   );
-// }
-
-// import React from "react";
-// import { NavigationContainer } from "@react-navigation/native";
-// import { createStackNavigator } from "@react-navigation/stack";
-// import BottomTabs from "./BottomTabs";
-// import LeafLensLogin from "./LeafLensLogin";
-
-
-
-// export default function App() {
-//   return (
-//     <NavigationContainer>
-//       <Stack.Navigator screenOptions={{ headerShown: false }}>
-//         {/* First screen: Login */}
-//         <Stack.Screen name="Login" component={LeafLensLogin} />
-
-//         {/* After login: go to bottom tabs */}
-//         <Stack.Screen name="MainApp" component={BottomTabs} />
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   );
-// }
-
-import React, { useEffect } from "react"; // import useEffect
+import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LeafLensLogin from "./screens/LeafLensLogin";
-import BottomTabs from "./screens/BottomTabs"; // or BottomTabs if that's your main app
+import BottomTabs from "./screens/BottomTabs";
 import GetStarted from "./screens/GetStarted";
 import AppProvider from "./providers/AppProvider";
 import EditProfile from "./screens/EditProfile";
+import AdminDashboard from "./screens/AdminDashboard";
+import UserManagement from "./screens/UserManagement";
 
-import { AppState } from "react-native"; // for create the event listener
-import * as NavigationBar from 'expo-navigation-bar'; // expo navigation bar packages
+import { AppState, Platform } from "react-native";
+import * as NavigationBar from 'expo-navigation-bar';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   useEffect(() => {
-    // Hide the navigation bar of mobile device, can call it back by swipe up the from the bottom
-    const hideNavigationBar = async () => {
-      await NavigationBar.setVisibilityAsync("hidden");
-      await NavigationBar.setBehaviorAsync("overlay-swipe");
-    };
+    // Only hide navigation bar on Android
+    if (Platform.OS === 'android') {
+      const hideNavigationBar = async () => {
+        try {
+          await NavigationBar.setVisibilityAsync("hidden");
+          await NavigationBar.setBehaviorAsync("overlay-swipe");
+        } catch (error) {
+          console.log("Navigation bar error:", error);
+        }
+      };
 
-    hideNavigationBar();
+      hideNavigationBar();
 
-    const refocus = AppState.addEventListener("change", (state) => {
-      if(state == "active"){
-        hideNavigationBar();
-      }
-    });
-    
-    return () => refocus.remove();
+      const refocus = AppState.addEventListener("change", (state) => {
+        if(state === "active"){
+          hideNavigationBar();
+        }
+      });
+      
+      return () => refocus.remove();
+    }
   }, []);
 
-// why edit profile here
   return (
     <AppProvider>
       <NavigationContainer>
@@ -86,6 +47,8 @@ export default function App() {
           <Stack.Screen name="Login" component={LeafLensLogin} />
           <Stack.Screen name="Home" component={BottomTabs} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
+          <Stack.Screen name="AdminDashboard" component={AdminDashboard} />
+          <Stack.Screen name="UserManagement" component={UserManagement} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppProvider>
