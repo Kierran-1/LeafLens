@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from '../styles/LeafLensLoginStyles';
 import theme from '../theme';
 
@@ -26,6 +27,7 @@ export default function LeafLensLogin({ navigation }) {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState('login'); // Track login or signup states
+  const [isPublicUser, setisPublicUser] = useState(null);
   const IP_Add = "192.168.0.215";
   const PORT = 3000;
 
@@ -50,6 +52,7 @@ export default function LeafLensLogin({ navigation }) {
 
   const HandleLogin = async () => {
     try{
+
       const response = await fetch(`http://${IP_Add}:${PORT}/login` , {
         method: "POST",
         headers: {
@@ -57,6 +60,7 @@ export default function LeafLensLogin({ navigation }) {
         },
         body: JSON.stringify({ email, password })
       });
+
       if (!response.ok) {
         const message = await response.text();
         Alert.alert("Login Failed", message || "Invalid Credentials.");
@@ -64,10 +68,32 @@ export default function LeafLensLogin({ navigation }) {
       }
 
       const data = await response.json();
+      
+      await AsyncStorage.setItem("user", JSON.stringify(data.user));
       console.log("User:", data.user.username);
+      const { username, userRole } = data.user;
 
       Alert.alert("Login Success", `Welcome, ${data.user.username}!`);
-      navigation.navigate("Home");
+      console.log("User Role:", userRole);
+
+      switch (userRole){
+        case "Super Admin":
+          navigation.replace(/*Admin page*/);
+          break;
+
+        case "Park Admin":
+          navigation.replace(/*Admin page*/);
+          break;
+
+        case "Moderator Admin":
+          navigation.replace(/*Admin page*/);
+          break;
+
+        case "Public User":
+          navigation.replace("Home");
+          break;
+      }
+
     } catch (error) {
       Alert.alert("Error", "Unable to login. Please try again later.");
       console.error("Login Error", error);
@@ -136,16 +162,23 @@ export default function LeafLensLogin({ navigation }) {
             <View style={styles.formContainer}>
               
               {/* Username Input */}
-              <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Username</Text>
-                <TextInput
-                  value={username}
-                  onChangeText={setUsername}
-                  placeholder="Enter your Username"
-                  autoCapitalize="none"
-                  style={styles.textInput}
-                />
-              </View>
+              {activeTab === "signup" && (
+
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>Username</Text>
+
+                  <TextInput
+                    value={username}
+                    onChangeText={setUsername}
+                    placeholder="Enter your Username"
+                    autoCapitalize="none"
+                    style={styles.textInput}
+                  />
+
+                </View>
+
+              )}
+              
 
               {/* Email Input */}
               <View style={styles.inputGroup}>

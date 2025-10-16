@@ -47,6 +47,7 @@ dbInit.connect(err => {
             username VARCHAR(255) NOT NULL UNIQUE,
             email VARCHAR(255) NOT NULL UNIQUE,
             password VARCHAR(255) NOT NULL,
+            userRole ENUM("Public User", "Super Admin", "Park Admin", "Moderator Admin") NOT NULL,
             DOB VARCHAR(25) NULL,
             age INT NULL,
             gender VARCHAR(50) NULL,
@@ -59,23 +60,41 @@ dbInit.connect(err => {
         db.query(createUsersTable, (err) => {
             if (err) throw err;
             console.log("Users table created!");
+
+            defaultAdmin();
         });
 
-
-
         app.locals.db = db;
+        
+        async function defaultAdmin() {
+            db.query("SELECT * FROM users WHERE email = ?", ["admin@test.com"], async (err, results) => {
+                if (err) return console.error("Error checking for Super Admin:", err);
+
+                if (results.length === 0) {
+                    const hashedPassword = await bcrypt.hash("adminpass123", 10);
+                    const insert = "INSERT INTO users (username, email, password, userRole) VALUES (?, ?, ?, ?)";
+                    db.query(insert, ["super_admin", "admin@test.com", hashedPassword, "Super Admin"], (err) => {
+                        if (err) return console.error("Error inserting Super Admin:", err);
+                        console.log("Super Admin user created.");
+                    });
+                } else {
+                    console.log("Super Admin already exists.");
+                }
+            });
+        }
     });
 });
 
 
 
 app.post("/register", async (req, res) => {
-    console.log("Received data:", req.body); // Without this, we don't know what went wrong.
     const { username, email, password } = req.body;
+    const userRole = "Public User";
+    console.log("Received data:", req.body); // Without this, we don't know what went wrong.
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-        app.locals.db.query(sql, [username, email, hashedPassword], (err, result) => {
+        const sql = "INSERT INTO users (username, email, password, userRole) VALUES (?, ?, ?, ?)";
+        app.locals.db.query(sql, [username, email, hashedPassword, userRole], (err, result) => {
             if (err){
                 console.error(err);
 
@@ -132,6 +151,7 @@ app.post("/login", (req, res) => {
                     userid: user.userid,
                     username: user.username,
                     email: user.email,
+                    userRole: user.userRole,
                 }
             });
         } catch (compareError) {
