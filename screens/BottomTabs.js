@@ -54,6 +54,7 @@ export default function BottomTabs() {
         name="Scan"
         component={Scan}
         options={{
+          tabBarStyle: { display: "none" },
           tabBarButton: (props) => (
             <TouchableOpacity {...props} style={styles.scanWrapper}>
               <View style={styles.scanButton}>
